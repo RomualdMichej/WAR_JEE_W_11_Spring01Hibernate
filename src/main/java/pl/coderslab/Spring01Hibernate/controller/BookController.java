@@ -13,6 +13,9 @@ import pl.coderslab.Spring01Hibernate.model.Author;
 import pl.coderslab.Spring01Hibernate.model.Book;
 import pl.coderslab.Spring01Hibernate.model.Publisher;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/book")
 public class BookController {
@@ -71,6 +74,53 @@ public class BookController {
     public String remove(@PathVariable("id") long id) {
         bookDao.removeById(id);
         return "Usunieto ksiazke";
+    }
+
+    @GetMapping("/findAll")
+    @ResponseBody
+    public String findAll() {
+        List<Book> books = bookDao.findAll();
+        return books.stream()
+                .map(Book::getTitle)
+                .collect(Collectors.joining("<br />"));
+    }
+
+    @GetMapping("/rating/{rating}")
+    @ResponseBody
+    public String getRatingList(@PathVariable("rating") int rating) {
+        List<Book> books = bookDao.getRatingList(rating);
+        return books.stream()
+                .map(Book::getTitle)
+                .collect(Collectors.joining("<br />"));
+    }
+
+    @GetMapping("/publisher")
+    @ResponseBody
+    public String findWithPublisher() {
+        List<Book> books = bookDao.findAllWithPublisher();
+        return books.stream()
+                .map(Book::getTitle)
+                .collect(Collectors.joining("<br />"));
+    }
+
+    @GetMapping("/publisher/{publisherId}")
+    @ResponseBody
+    public String findByGivenPublisher(@PathVariable("publisherId") int publisherId) {
+        Publisher publisher = publisherDao.findById(publisherId);
+        List<Book> books = bookDao.findAllWithPublisher(publisher);
+        return books.stream()
+                .map(Book::getTitle)
+                .collect(Collectors.joining("<br />"));
+    }
+
+    @GetMapping("/author/{authorId}")
+    @ResponseBody
+    public String findByGivenAuthor(@PathVariable("authorId") int authorId) {
+        Author author = authorDao.findById(authorId);
+        List<Book> books = bookDao.findAllWithAuthor(author);
+        return books.stream()
+                .map(Book::getTitle)
+                .collect(Collectors.joining("<br />"));
     }
 
 }

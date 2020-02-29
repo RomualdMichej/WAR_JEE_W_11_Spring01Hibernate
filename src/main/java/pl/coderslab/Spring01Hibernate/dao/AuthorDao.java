@@ -6,6 +6,7 @@ import pl.coderslab.Spring01Hibernate.model.Author;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -30,6 +31,10 @@ public class AuthorDao {
         Author author = findById(id);
         author = entityManager.contains(author) ? author : entityManager.merge(author);
         entityManager.remove(author);
+    }
+
+    public List<Author> findAll() {
+        return entityManager.createQuery("SELECT a FROM Author a").getResultList();
     }
 
 }

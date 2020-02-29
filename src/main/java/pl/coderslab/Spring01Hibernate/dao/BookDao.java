@@ -1,11 +1,23 @@
 package pl.coderslab.Spring01Hibernate.dao;
 
 import org.springframework.stereotype.Repository;
+import pl.coderslab.Spring01Hibernate.model.Author;
 import pl.coderslab.Spring01Hibernate.model.Book;
+import pl.coderslab.Spring01Hibernate.model.Publisher;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ Uzupełnij klasę BookDao o metodę do pobierania listy wszystkich książek, które mają jakiegokolwiek wydawcę.
+ Uzupełnij klasę BookDao o metodę do pobierania listy wszystkich książek, które mają określonego w parametrze wydawcę.
+ Uzupełnij klasę BookDao o metodę do pobierania listy wszystkich książek, które mają określonego w parametrze autora.
+ * */
 
 @Repository
 @Transactional
@@ -30,6 +42,34 @@ public class BookDao {
         Book book = findById(id);
         book = entityManager.contains(book) ? book : entityManager.merge(book);
         entityManager.remove(book);
+    }
+
+    public List<Book> findAll() {
+        Query query = entityManager.createQuery("SELECT b FROM Book b");
+        return query.getResultList();
+    }
+
+    public List<Book> getRatingList(int rating) {
+        Query query = entityManager.createQuery("SELECT b FROM Book b WHERE b.rating = :givenRating");
+        query.setParameter("givenRating", rating);
+        return query.getResultList();
+    }
+
+    public List<Book> findAllWithPublisher() {
+        Query query = entityManager.createQuery("SELECT b FROM Book b WHERE b.publisher is not null");
+        return query.getResultList();
+    }
+
+    public List<Book> findAllWithPublisher(Publisher publisher) {
+        Query query = entityManager.createQuery("SELECT b FROM Book b where b.publisher = :publisher");
+        query.setParameter("publisher", publisher);
+        return query.getResultList();
+    }
+
+    public List<Book> findAllWithAuthor(Author author) {
+        Query query = entityManager.createQuery("SELECT b FROM Book b inner join Author a on a.id = :authorId");
+        query.setParameter("authorId", author.getId());
+        return query.getResultList();
     }
 
 }

@@ -2,10 +2,8 @@ package pl.coderslab.Spring01Hibernate.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.Spring01Hibernate.dao.PersonDao;
 import pl.coderslab.Spring01Hibernate.model.Person;
 import pl.coderslab.Spring01Hibernate.model.PersonDetails;
@@ -20,6 +18,36 @@ public class PersonController {
     public PersonController(PersonDao personDao) {
         this.personDao = personDao;
     }
+
+    @GetMapping("/personForm")
+    public String initPersonForm(Model model) {
+        model.addAttribute("person", new Person());
+        return "person";
+    }
+
+    @PostMapping("/personForm")
+    @ResponseBody
+    public String savePersonForm(@ModelAttribute Person person) {
+        personDao.persist(person);
+        return "Zapisano pomyślnie";
+    }
+
+   /* @GetMapping("/personForm")
+    public String initPersonForm() {
+        return "person";
+    }
+
+    @PostMapping("/personForm")
+    @ResponseBody
+    public String savePersonForm(@RequestParam String login, @RequestParam String password, @RequestParam String email) {
+        Person person = new Person();
+        person.setLogin(login);
+        person.setPassword(password);
+        person.setEmail(email);
+        personDao.persist(person);
+        return "Zapisano pomyślnie";
+    }*/
+
 
     @GetMapping("/findById/{id}")
     @ResponseBody

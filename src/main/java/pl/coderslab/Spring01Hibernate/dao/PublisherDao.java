@@ -6,6 +6,7 @@ import pl.coderslab.Spring01Hibernate.model.Publisher;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -30,6 +31,10 @@ public class PublisherDao {
         Publisher publisher = findById(id);
         publisher = entityManager.contains(publisher) ? publisher : entityManager.merge(publisher);
         entityManager.remove(publisher);
+    }
+
+    public List<Publisher> findAll() {
+        return entityManager.createQuery("SELECT p FROM Publisher p").getResultList();
     }
 
 }
