@@ -3,10 +3,13 @@ package pl.coderslab.Spring01Hibernate.controllerForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.Spring01Hibernate.dao.PublisherDao;
 import pl.coderslab.Spring01Hibernate.model.Publisher;
 import pl.coderslab.Spring01Hibernate.util.ViewHelper;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/publisherForm")
@@ -32,7 +35,10 @@ public class PublisherFormController {
     }
 
     @PostMapping("/add")
-    public String addPublisher(@ModelAttribute Publisher publisher) {
+    public String addPublisher(@Valid Publisher publisher, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "publisher/addAndEdit";
+        }
         publisherDao.persist(publisher);
         return "redirect:";
     }
@@ -59,7 +65,10 @@ public class PublisherFormController {
     }
 
     @PostMapping("/edit")
-    public String editBook(@ModelAttribute Publisher publisher) {
+    public String editBook(@Valid Publisher publisher, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "publisher/addAndEdit";
+        }
         publisherDao.merge(publisher);
         return "redirect:";
     }

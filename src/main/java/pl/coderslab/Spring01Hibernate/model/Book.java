@@ -1,6 +1,11 @@
 package pl.coderslab.Spring01Hibernate.model;
 
+import org.hibernate.validator.constraints.Range;
+import pl.coderslab.Spring01Hibernate.validator.group.BookValidationGroup;
+import pl.coderslab.Spring01Hibernate.validator.group.PropositionValidationGroup;
+
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,17 +17,28 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min = 5, groups = {BookValidationGroup.class, PropositionValidationGroup.class})
     private String title;
 
+    @Range(min = 1, max = 10, groups = BookValidationGroup.class)
     private int rating;
 
+    @Size(max = 30, groups = {BookValidationGroup.class, PropositionValidationGroup.class})
+    @NotBlank(groups = PropositionValidationGroup.class)
     private String description;
 
     @ManyToOne
+    @NotNull(groups = BookValidationGroup.class)
     private  Publisher publisher;
 
     @ManyToMany
+    @NotEmpty(groups = BookValidationGroup.class)
     private List<Author> authorList = new ArrayList<>();
+
+    @Min(value = 2, groups = BookValidationGroup.class)
+    private int pages;
+
+    private boolean proposition;
 
     public Long getId() {
         return id;
@@ -70,5 +86,21 @@ public class Book {
 
     public void setAuthorList(List<Author> authorList) {
         this.authorList = authorList;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public boolean isProposition() {
+        return proposition;
+    }
+
+    public void setProposition(boolean proposition) {
+        this.proposition = proposition;
     }
 }

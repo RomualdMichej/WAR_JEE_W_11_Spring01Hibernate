@@ -9,15 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-/**
- Uzupełnij klasę BookDao o metodę do pobierania listy wszystkich książek, które mają jakiegokolwiek wydawcę.
- Uzupełnij klasę BookDao o metodę do pobierania listy wszystkich książek, które mają określonego w parametrze wydawcę.
- Uzupełnij klasę BookDao o metodę do pobierania listy wszystkich książek, które mają określonego w parametrze autora.
- * */
 
 @Repository
 @Transactional
@@ -42,6 +34,11 @@ public class BookDao {
         Book book = findById(id);
         book = entityManager.contains(book) ? book : entityManager.merge(book);
         entityManager.remove(book);
+    }
+
+    public List<Book> findAllPropositions() {
+        Query query = entityManager.createQuery("SELECT b FROM Book b WHERE b.proposition = true");
+        return query.getResultList();
     }
 
     public List<Book> findAll() {

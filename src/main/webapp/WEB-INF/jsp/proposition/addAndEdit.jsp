@@ -2,11 +2,11 @@
            uri="http://www.springframework.org/tags/form" %>
 
 
-<h2>DODAWANIE NOWEJ KSIAZKI</h2>
+<h2>DODAWANIE NOWEJ PROPOZYCJI</h2>
 
 
 <form:form method="post"
-           modelAttribute="book">
+           modelAttribute="proposition">
 
     <form:hidden path="id"/> <br />
     Title: <form:input path="title"/> <br />
@@ -33,6 +33,8 @@
     Pages: <form:input path="pages"/> <br />
     <form:errors path="pages"/> <br />
     <br />
+
+    <form:hidden path="proposition"/> <br />
 
     <input type="submit" value="Zapisz!"/>
 

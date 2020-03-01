@@ -5,7 +5,12 @@
 <form:form method="post" modelAttribute="publisher">
 
     <form:hidden path="id"/> <br />
-    Nazwa: <form:input path="name" />
+    Nazwa: <form:input path="name" /> <br />
+    <form:errors path="name"/> <br />
+    NIP: <form:input path="nip"/> <br />
+    <form:errors path="nip"/> <br />
+    REGON: <form:input path="regon"/> <br />
+    <form:errors path="regon"/> <br />
     <br />
     <input type="submit" value="Zapisz">
 
