@@ -3,6 +3,8 @@
 
 <h2>Lista wszystkich ksiazek</h2>
 
+<h5><a href="/">Powrot na strone glowna</a></h5>
+
 <form action="add" method="get">
     <input type="submit" value="Dodaj nowa ksiazke">
 </form>

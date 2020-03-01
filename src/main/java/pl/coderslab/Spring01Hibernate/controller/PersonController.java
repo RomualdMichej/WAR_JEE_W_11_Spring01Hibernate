@@ -22,7 +22,7 @@ public class PersonController {
     @GetMapping("/personForm")
     public String initPersonForm(Model model) {
         model.addAttribute("person", new Person());
-        return "person";
+        return "person/person";
     }
 
     @PostMapping("/personForm")

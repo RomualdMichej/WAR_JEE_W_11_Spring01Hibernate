@@ -58,7 +58,7 @@ public class BookFormController {
     }
 
     @GetMapping("/edit")
-    public String initEditBook(@RequestParam("toEditId") int toEditId, Model model) {
+    public String initEditBook(@RequestParam int toEditId, Model model) {
         model.addAttribute("book", bookDao.findById(toEditId));
         return "book/addAndEdit";
     }
@@ -70,7 +70,7 @@ public class BookFormController {
     }
 
     @GetMapping("/remove")
-    public String initRemoveBook(@RequestParam("toRemoveId") int toRemoveId, Model model) {
+    public String initRemoveBook(@RequestParam int toRemoveId, Model model) {
         model.addAttribute("book", bookDao.findById(toRemoveId));
         model.addAttribute("viewHelper", new ViewHelper());
         return "book/remove";

@@ -38,8 +38,8 @@ public class PublisherFormController {
     }
 
     @GetMapping("/remove")
-    public String initRemovePublisher(@RequestParam("toRemoveId") int id, Model model) {
-        model.addAttribute("publisher", publisherDao.findById(id));
+    public String initRemovePublisher(@RequestParam int toRemoveId, Model model) {
+        model.addAttribute("publisher", publisherDao.findById(toRemoveId));
         model.addAttribute("viewHelper", new ViewHelper());
         return "publisher/remove";
     }
@@ -53,7 +53,7 @@ public class PublisherFormController {
     }
 
     @GetMapping("/edit")
-    public String initEditBook(@RequestParam("toEditId") int toEditId, Model model) {
+    public String initEditBook(@RequestParam int toEditId, Model model) {
         model.addAttribute("publisher", publisherDao.findById(toEditId));
         return "publisher/addAndEdit";
     }
